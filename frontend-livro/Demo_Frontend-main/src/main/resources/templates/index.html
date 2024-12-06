@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Procurando um livro?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        main {
+            margin: 20px 0;
+        }
+        section {
+            background: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        section h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background: #333;
+            color: #fff;
+        }
+        @media (max-width: 768px) {
+            input, textarea, button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Barão de Mauá: Biblioteca da cidade de Petrolândia-PE</h1>
+        </header>
+        
+        <main>
+            <section class="form-section">
+                <h2>Cadastrar Livro</h2>
+                <form th:action="@{/livro/save}" method="post">
+                    <label for="id_livro">ID:</label>
+                    <input type="number" id="id_livro" name="id_livro" required>
+                
+                    <label for="title">Título:</label>
+                    <input type="text" id="title" name="titulo" required>
+                
+                    <label for="author">Autor:</label>
+                    <input type="text" id="author" name="autor" required>
+                
+                    <label for="editora">Editora:</label>
+                    <input type="text" id="editora" name="editora">
+                
+                    <label for="ano_publicacao">Ano de Publicação:</label>
+                    <input type="number" id="ano_publicacao" name="ano_publicacao">
+                
+                    <label for="genero">Gênero:</label>
+                    <input type="text" id="genero" name="genero">
+                
+                    <label for="isbn">ISBN:</label>
+                    <input type="text" id="isbn" name="isbn" required>
+                
+                    <label for="num_paginas">Número de Páginas:</label>
+                    <input type="number" id="num_paginas" name="num_paginas">
+                
+                    <label for="sinopse">Sinopse:</label>
+                    <textarea id="sinopse" name="sinopse"></textarea>
+                
+                    <button type="submit">Salvar</button>
+                </form>
+            </section>
+
+            <section class="search-section">
+                <h2>Consultar Livro</h2>
+                
+                <form th:action="@{/livro/id/}" method="get">
+                    <label for="id">Por ID:</label>
+                    <input type="number" id="id" name="id" required>
+                    <button type="submit">Consultar</button>
+                </form>
+                
+                <form th:action="@{/livro/isbn/}" method="get">
+                    <label for="isbn">Por ISBN:</label>
+                    <input type="text" id="isbn" name="isbn" required>
+                    <button type="submit">Consultar</button>
+                </form>
+                
+                <form th:action="@{/livro/titulo/}" method="get">
+                    <label for="titulo">Por Título:</label>
+                    <input type="text" id="titulo" name="titulo" required>
+                    <button type="submit">Consultar</button>
+                </form>
+            </section>
+
+            <section class="list-section">
+                <h2>Catálogo de Livros</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>ISBN</th>
+                            <th>Gênero</th>
+                            <th>Editora</th>
+                            <th>Ano de Publicação</th>
+                            <th>Nº páginas</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="livro : ${listaLivros}">
+                            <td th:text="${livro.id}"></td>
+                            <td th:text="${livro.title}"></td>
+                            <td th:text="${livro.author}"></td>
+                            <td th:text="${livro.isbn}"></td>
+                            <td th:text="${livro.genero}"></td>
+                            <td th:text="${livro.editora}"></td>
+                            <td th:text="${livro.ano_publicacao}"></td>
+                            <td th:text="${livro.num_paginas}"></td>
+                            <td>
+                                <form th:action="@{/livro/delete/}" method="post">
+                                    <button type="submit">Deletar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
